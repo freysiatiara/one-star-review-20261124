@@ -14,6 +14,8 @@ REVIEW = (
     "and no refund policy, yet it drops everything I own."
 )
 
+MAX_CHARS = 160
+
 
 def main() -> None:
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
@@ -21,10 +23,12 @@ def main() -> None:
     # One line, 1-160 characters, no trailing newline: the gate allows
     # UTF-8 text of 1 to 160 characters, not only white space.
     text = REVIEW
-    assert "\n" not in text and 1 <= len(text) <= 160
+    assert "\n" not in text and 1 <= len(text) <= MAX_CHARS
+    assert text == text.strip(), "entry must not start or end with space"
     with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as f:
         f.write(text)
     print(text)
+    print(f"({len(text)} characters)")
 
 
 if __name__ == "__main__":
